@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SummerfieldRockets</title>
+    <style>
+        .section { display: none; }
+        html {
+          
+          text-align: center;
+          background: rgb(118,168,255);
+          background: radial-gradient(circle, rgba(118,168,255,1) 51%, rgba(168,4,37,1) 100%);
+          cursor: url('https://i.imgur.com/yourimage.webp'), auto;
+        }
+      h1 {
+        color: #476294;
+        font-family: outfit;
+      }
+      h3 {
+        color: white;
+        font-family: outfit;
+      }
+      h2 {
+        color: #476294;
+        font-family: outfit;
+      }
+      p {
+        color: white;
+        font-family: outfit;
+      }
+      label {
+        color: white;
+        font-family: outfit;
+      }
+      select {
+        border-radius: 10px;
+        background-color: #9e6485;
+        color: white;
+        font-family: cousine;
+        cursor: pointer;
+      }
+      button {
+        border-radius: 10px;
+        background-color: cornflowerblue;
+        color: white;
+        font-family: cousine;
+        cursor: pointer;
+      }
+      div {
+        height: 30px;
+      }
+      hr.dashed {
+       border-top: 1px dashed;
+       border-bottom: none;
+        width: 50%;
+      }
+      
+    </style>
+</head>
+<body>
+    <form id="rocketForm">
+      <h1>SummerfieldRockets</h1>
+      <h2>Designer, made-to-order rockets!</h2>
+      <h3>Customize letters, fonts, power, fin type, fin number, and color!</h3>
+        <div class="section" id="section1">
+          <hr class="dashed">
+            <h2>Get a Custom Rocket Made</h2>
+            <p>Rockets start at $40!</p>
+           
+
+            <label>Would you like letters on your rocket?</label><br>
+            <select id="textOption" required>
+                <option value="yes">Yes +$5</option>
+                <option value="no">No</option>
+            </select><br><br>
+
+            <label>What diameter would you like for your rocket engine?</label><br>
+            <select id="engineDiameter" required>
+                <option value="13mm">13mm (1/2 A engines)</option>
+                <option value="18mm">18mm (Typical A, B, and C engines) +$5</option>
+                <option value="24mm">24mm (D and E engines) +$10</option>
+            </select><br><br>
+
+            <button type="button" onclick="showMessage()">Next</button>
+        </div>
+
+        <div class="section" id="messageSection">
+            <p id="message"></p>
+            <button id="paymentButton" style="display:none;">Continue customizing and pay!</button>
+        </div>
+    </form>
+
+    <script>
+        function showMessage() {
+            const textOption = document.getElementById('textOption').value;
+            const engineDiameter = document.getElementById('engineDiameter').value;
+            let message = "";
+            let cost = 40;  // Base cost
+            let paymentUrl = "";
+
+            if (textOption === 'yes') {
+                cost += 5;
+            }
+
+            if (engineDiameter === '18mm') {
+                cost += 5;
+            } else if (engineDiameter === '24mm') {
+                cost += 10;
+            }
+
+            if (engineDiameter === '13mm' && textOption === 'yes') {
+                
+                paymentUrl = "https://buy.stripe.com/00g28N1GJf9rfi8000";
+            } else if (engineDiameter === '13mm' && textOption === 'no') {
+                
+                paymentUrl = "https://buy.stripe.com/cN27t7fxzf9r5Hy4gl";
+            } else if (engineDiameter === '18mm' && textOption === 'yes') {
+                
+                paymentUrl = "https://buy.stripe.com/4gw7t7etv6CVgmc145";
+            } else if (engineDiameter === '18mm' && textOption === 'no') {
+                
+                paymentUrl = "https://buy.stripe.com/eVabJnadf1iB1ri4gk";
+            } else if (engineDiameter === '24mm' && textOption === 'yes') {
+                
+                paymentUrl = "https://buy.stripe.com/7sI7t78572mF3zqaEG";
+            } else if (engineDiameter === '24mm' && textOption === 'no') {
+                
+                paymentUrl = "https://buy.stripe.com/9AQ14J4SV9P7ee48wC";
+            }
+
+            document.getElementById('section1').style.display = 'none';
+            document.getElementById('message').innerText = `${message}Your rocket will cost $${cost}.`;
+            const paymentButton = document.getElementById('paymentButton');
+            paymentButton.style.display = 'inline-block';
+            paymentButton.onclick = function() {
+                window.open(paymentUrl, '_blank');
+            };
+            document.getElementById('messageSection').style.display = 'block';
+        }
+
+        // Initialize form with the first section
+        document.getElementById('section1').style.display = 'block';
+    </script>
+</body>
+</html>
